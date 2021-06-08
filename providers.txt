@@ -1,44 +1,17 @@
 Provider for Serbia: R_rs_01
-
 Addresses for network: 100.1.0.0/16
 
-address for link to local network: 100.1.0.0 255.255.255.252
-addresses for NAT: 100.1.1.0 - 100.1.10.255
-
-
 Provider for Bosna: R_ba_0
-
 Addresses for network: 100.2.0.0/16
 
-address for link to local network: 100.2.0.0 255.255.255.252
-addresses for NAT: 100.2.1.0 - 100.2.10.255
-
-
-
 Provider for North Macedonia: R_mk_0
-
 Addresses for network: 100.3.0.0/16
 
-address for link to local network: 100.3.0.0 255.255.255.252
-addresses for NAT: 100.3.1.0 - 100.3.10.255
-
-
-
 Provider for Montenegro: R_me_0
-
 Addresses for network: 100.4.0.0/16
 
-address for link to local network: 100.3.0.0 255.255.255.252
-addresses for NAT: 100.3.1.0 - 100.3.10.255
-
-
 Provider for Serbia: R_rs_02
-
 Addresses for network: 100.5.0.0/16
-
-address for link to local network: 100.5.0.0 255.255.255.252
-addresses for NAT: 100.5.1.0 - 100.5.10.255
-
 
 Local networks:
 
@@ -46,7 +19,7 @@ R_rs_01 --- R_ba_0 100.1.0.0 255.255.255.252 (GIGA 7/0: 100.1.0.1 --- GIGA 7/0: 
 R_rs_01 --- R_me_0 100.1.0.4 255.255.255.252 (GIGA 9/0: 100.1.0.5 --- GIGA 7/0: 100.1.0.6)
 R_rs_01 --- R_rs_02 100.1.0.8 255.255.255.252 (GIGA 8/0: 100.1.0.9 --- GIGA 8/0: 100.1.0.10)
 R_ba_0 --- R_mk_0 100.2.0.0 255.255.255.252 (GIGA 8/0: 100.2.0.1 --- GIGA 8/0: 100.2.0.2)
-R_ba_0 --- R_me_0 100.1.0.4 255.255.255.252 (GIGA 9/0: 100.2.0.5 --- GIGA 9/0: 100.2.0.6)
+R_ba_0 --- R_me_0 100.2.0.4 255.255.255.252 (GIGA 9/0: 100.2.0.5 --- GIGA 9/0: 100.2.0.6)
 R_mk_0 --- R_me_0 100.3.0.0 255.255.255.252 (GIGA 9/0: 100.3.0.1 --- GIGA 8/0: 100.3.0.2)
 R_mk_0 --- R_rs_02 100.3.0.4 255.255.255.252 (GIGA 7/0: 100.3.0.5 --- GIGA 9/0: 100.3.0.6)
 
@@ -81,7 +54,12 @@ Router configuration:
 		exit
 	
 		!# BGP configuration
-		!# exit
+		router bgp 100
+		neighbor 100.1.0.2 remote-as 200
+		neighbor 100.1.0.6 remote-as 400
+		neighbor 100.1.0.10 remote-as 500
+		exit
+		
 		
 		exit
 		
@@ -96,10 +74,10 @@ Router configuration:
 
 		!# interface configuration
 		
-		!# interface gigabitEthernet 6/0
-		!# ip address 10.72.128.9 255.255.255.252
-		!# no shutdown
-		!# exit
+		interface gigabitEthernet 6/0
+		ip address 10.72.128.9 255.255.255.252
+		no shutdown
+		exit
 		
 		interface gigabitEthernet 7/0
 		ip address 100.1.0.2 255.255.255.252
@@ -115,18 +93,21 @@ Router configuration:
 		ip address 100.2.0.5 255.255.255.252
 		no shutdown
 		exit
-	
-		!# default ruta
-		!# ip route 0.0.0.0 0.0.0.0 TODO PUBLIC_ADDRESS
-		!# default-information originate
 		
+		ip route 10.72.128.0 255.255.192.0 10.72.128.9
 		
 		!# NAT configuration
 		!# TODO
 		!# exit
 		
 		!# BGP configuration
-		!# exit
+		router bgp 200
+		neighbor 100.1.0.1 remote-as 100
+		neighbor 100.2.0.2 remote-as 300
+		neighbor 100.2.0.6 remote-as 400
+		
+		network 10.72.128.0 mask 255.255.192.0
+		exit
 		
 		exit
 		
@@ -141,10 +122,10 @@ Router configuration:
 
 		!# interface configuration
 
-		!# interface gigabitEthernet 6/0
-		!# ip address 10.72.192.10 255.255.255.252
-		!# no shutdown
-		!# exit
+		interface gigabitEthernet 6/0
+		ip address 10.72.192.10 255.255.255.252
+		no shutdown
+		exit
 
 		interface gigabitEthernet 7/0
 		ip address 100.3.0.5 255.255.255.252
@@ -168,7 +149,12 @@ Router configuration:
 		!# exit
 		
 		!# BGP configuration
-		!# exit
+		router bgp 300
+		neighbor 100.2.0.1 remote-as 200
+		neighbor 100.3.0.2 remote-as 400
+		neighbor 100.3.0.6 remote-as 500
+		network 10.72.192.0 mask 255.255.192.0
+		exit
 		
 		exit
 		
@@ -183,10 +169,10 @@ Router configuration:
 
 		!# interface configuration
 
-		!# interface gigabitEthernet 6/0
-		!# ip address 10.72.96.6 255.255.255.252
-		!# no shutdown
-		!# exit
+		interface gigabitEthernet 6/0
+		ip address 10.72.96.6 255.255.255.252
+		no shutdown
+		exit
 		
 		interface gigabitEthernet 7/0
 		ip address 100.1.0.6 255.255.255.252
@@ -203,15 +189,20 @@ Router configuration:
 		no shutdown
 		exit
 	
-		!# TODO - OSPF
-		!# TODO - default ruta
+		!# default ruta
+		ip route 10.72.64.0 255.255.192.0 10.72.96.5
 	
 		!# input NAT configuration
 		!# TODO 
 		!# exit
 	
 		!# BGP configuration
-		!# exit
+		router bgp 400
+		neighbor 100.1.0.5 remote-as 100
+		neighbor 100.2.0.5 remote-as 200
+		neighbor 100.3.0.1 remote-as 300
+		network 10.72.64.0 mask 255.255.192.0
+		exit
 		
 		exit
 		
@@ -242,7 +233,10 @@ Router configuration:
 		exit
 	
 		!# BGP configuration
-		!# exit
+		router bgp 500
+		neighbor 100.1.0.9 remote-as 100
+		neighbor 100.3.0.5 remote-as 300
+		exit
 		
 		exit
 		

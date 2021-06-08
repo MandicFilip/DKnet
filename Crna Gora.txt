@@ -223,10 +223,16 @@ Router configuration:
 		no shutdown
 		exit
 	
+		!# default route
+		ip route 0.0.0.0 0.0.0.0 10.72.96.6
+		
 		!# OSPF configuration
 		router ospf 1
 		network 10.72.64.0 0.0.63.255 area 0
+		default-information originate
 		exit
+		
+		
 		
 		exit
 		

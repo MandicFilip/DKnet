@@ -21,7 +21,7 @@ Network for Bosna - 10.72.128.0/18
 
 provider links and public addresses:
 	Provider router - R_ba_0
-	R_ba_1 --- R_ba_0 10.72.128.8 255.255.255.252 (GIGA 9/0: 10.72.128.8 --- GIGA 6/0: 10.72.128.9)
+	R_ba_1 --- R_ba_0 10.72.128.8 255.255.255.252 (GIGA 9/0: 10.72.128.9 --- GIGA 6/0: 10.72.128.10)
 	public addresses: 100.2.0.0/24
 
 Router configuration:
@@ -51,16 +51,20 @@ Router configuration:
 		exit
 	
 		interface gigabitEthernet 9/0
-		ip address 10.72.128.8 255.255.255.252
+		ip address 10.72.128.9 255.255.255.252
 		no shutdown
 		exit
+		
+		!# default ruta
+		ip route 0.0.0.0 0.0.0.0 10.72.128.10
 		
 		!# RIP configuration
 		router rip
 		version 2
-		network 10.72.0.0
-		
+		network 10.0.0.0
+		default-information originate
 		exit
+		
 		exit
 		
 	----------------
