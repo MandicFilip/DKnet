@@ -1,0 +1,266 @@
+Network for Montenegro - 10.72.64.0/18
+
+  routers: R_me_1, R_me_2, R_me_3, R_me_4, R_me_5, R_me_6
+
+  IP addresses:
+    private addresses scope: 10.72.64.0 - 10.72.127.255
+
+    links between routers:
+		R_me_1 --- R_me_2: 10.72.64.0 255.255.255.252 (FA 0/0: 10.72.64.1 --- FA 0/0: 10.72.64.2)
+		R_me_2 --- R_me_3: 10.72.72.0 255.255.255.252 (GIGA 2/0: 10.72.72.1 --- GIGA 0/0: 10.72.72.2)
+		R_me_2 --- R_me_5: 10.72.72.4 255.255.255.252 (GIGA 1/0: 10.72.72.5 --- GIGA 3/0: 10.72.72.6)
+		R_me_3 --- R_me_4: 10.72.80.0 255.255.255.252 (FA 1/0: 10.72.80.1 --- FA 0/0: 10.72.80.2)
+		R_me_4 --- R_me_5: 10.72.88.0 255.255.255.252 (FA 1/0: 10.72.88.1 --- FA 1/0: 10.72.88.2)
+		R_me_5 --- R_me_6: 10.72.96.0 255.255.255.252 (FA 2/0: 10.72.96.1 --- FA 0/0: 10.72.96.2)
+
+    local networks in first outside area (R_me_1, FA 7/0 and FA 8/0): 10.72.65.0/24 and 10.72.66.0/24
+    local networks in second outside area (R_me_2, FA 7/0 and FA 8/0): 10.72.73.0/24 and 10.72.74.0/24
+    local networks in third outside area (R_me_3, FA 7/0 and FA 8/0): 10.72.81.0/24 and 10.72.82.0/24
+    local networks in fourth outside area (R_me_4, FA 7/0 and FA 8/0): 10.72.89.0/24 and 10.72.90.0/24
+    local networks in fifth outside area (R_me_5, FA 7/0 and FA 8/0): 10.72.97.0/24 and 10.72.98.0/24
+    local networks in sixth outside area (R_me_6, FA 7/0 and FA 8/0): 10.72.105.0/24 and 10.72.106.0/24
+
+	default gateway address pattern: 10.x.x.1
+	PC address patterns: 10.x.x.2 and 10.x.x.3
+
+
+provider links and public addresses:
+	Provider router - R_me_0
+	R_me_5 --- R_me_0 10.72.96.4 255.255.255.252 (GIGA 0/0: 10.72.96.5 --- GIGA 6/0: 10.72.96.6)
+	public addresses: 100.4.0.0/24
+
+
+Router configuration:
+	
+	R_me_1:
+	
+		enable
+		configure terminal
+	
+		hostname R_me_1
+
+		!# interface configuration
+
+		interface fastEthernet 7/0
+		ip address 10.72.65.1 255.255.255.0
+		no shutdown
+		exit
+	
+		interface fastEthernet 8/0
+		ip address 10.72.66.1 255.255.255.0
+		no shutdown
+		exit
+	
+		interface fastEthernet 0/0
+		ip address 10.72.64.1 255.255.255.252
+		no shutdown
+		exit
+	
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.64.0 0.0.63.255 area 0
+		
+		exit
+		exit
+		
+	----------------
+
+	R_me_2:
+	
+		enable
+		configure terminal
+
+		hostname R_me_2
+
+		!# interface configuration
+
+		interface fastEthernet 7/0
+		ip address 10.72.73.1 255.255.255.0
+		no shutdown
+		exit
+	
+		interface fastEthernet 8/0
+		ip address 10.72.74.1 255.255.255.0
+		no shutdown
+		exit
+
+		interface fastEthernet 0/0
+		ip address 10.72.64.2 255.255.255.252
+		no shutdown
+		exit
+	
+		interface gigabitEthernet 1/0
+		ip address 10.72.72.5 255.255.255.252
+		no shutdown
+		exit
+		
+		interface gigabitEthernet 2/0
+		ip address 10.72.72.1 255.255.255.252
+		no shutdown
+		exit
+		
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.64.0 0.0.63.255 area 0
+		
+		exit
+		exit
+		
+	----------------
+
+	R_me_3:
+	
+		enable
+		configure terminal
+	
+		hostname R_me_3
+
+		!# interface configuration
+
+		interface fastEthernet 7/0
+		ip address 10.72.81.1 255.255.255.0
+		no shutdown
+		exit
+	
+		interface fastEthernet 8/0
+		ip address 10.72.82.1 255.255.255.0
+		no shutdown
+		exit
+
+		interface gigabitEthernet 0/0
+		ip address 10.72.72.2 255.255.255.252
+		no shutdown
+		exit
+		
+		interface fastEthernet 1/0
+		ip address 10.72.80.1 255.255.255.252
+		no shutdown
+		exit
+	
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.64.0 0.0.63.255 area 0
+	
+		exit
+		exit
+		
+	----------------
+
+	R_me_4:
+	
+		enable
+		configure terminal
+	
+		hostname R_me_4
+
+		!# interface configuration
+	
+		interface fastEthernet 7/0
+		ip address 10.72.89.1 255.255.255.0
+		no shutdown
+		exit
+	
+		interface fastEthernet 8/0
+		ip address 10.72.90.1 255.255.255.0
+		no shutdown
+		exit
+	
+		interface fastEthernet 0/0
+		ip address 10.72.80.2 255.255.255.252
+		no shutdown
+		exit
+		
+		interface fastEthernet 1/0
+		ip address 10.72.88.1 255.255.255.252
+		no shutdown
+		exit
+	
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.64.0 0.0.63.255 area 0
+
+		exit
+		exit
+		
+	----------------
+
+	R_me_5:
+	
+		enable
+		configure terminal
+	
+		hostname R_me_5
+	
+		!# interface configuration
+
+		interface fastEthernet 7/0
+		ip address 10.72.97.1 255.255.255.0
+		no shutdown
+		exit
+	
+		interface fastEthernet 8/0
+		ip address 10.72.98.1 255.255.255.0
+		no shutdown
+		exit
+	
+		interface fastEthernet 1/0
+		ip address 10.72.88.2 255.255.255.252
+		no shutdown
+		exit
+		
+		interface fastEthernet 2/0
+		ip address 10.72.96.1 255.255.255.252
+		no shutdown
+		exit
+		
+		interface gigabitEthernet 3/0
+		ip address 10.72.72.6 255.255.255.252
+		no shutdown
+		exit
+		
+		interface gigabitEthernet 0/0
+		ip address 10.72.96.5 255.255.255.252
+		no shutdown
+		exit
+	
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.64.0 0.0.63.255 area 0
+		exit
+		
+		exit
+		
+	----------------
+
+	R_me_6:
+	
+		enable
+		configure terminal
+	
+		hostname R_me_6
+	
+		!# interface configuration
+	
+		interface fastEthernet 7/0
+		ip address 10.72.105.1 255.255.255.0
+		no shutdown
+		exit
+	
+		interface fastEthernet 8/0
+		ip address 10.72.106.1 255.255.255.0
+		no shutdown
+		exit
+	
+		interface fastEthernet 0/0
+		ip address 10.72.96.2 255.255.255.252
+		no shutdown
+		exit
+	
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.64.0 0.0.63.255 area 0
+	
+		exit
+		exit
+		
+	----------------

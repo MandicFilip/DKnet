@@ -1,0 +1,168 @@
+Network for Bosna - 10.72.128.0/18
+
+  routers: R_ba_1, R_ba_2, R_ba_3, R_ba_4
+
+  IP addresses:
+    private addresses scope: 10.72.128.0 - 10.72.191.255
+
+    links between routers:
+	R_ba_1 --- R_ba_2: 10.72.128.0 255.255.255.252 (FA: 7/0 10.72.128.1 --- FA 9/0: 10.72.128.2)
+	R_ba_1 --- R_ba_3: 10.72.128.4 255.255.255.252 (FA: 8/0 10.72.128.5 --- FA 9/0: 10.72.128.6)
+	R_ba_2 --- R_ba_4: 10.72.136.0 255.255.255.252 (FA: 8/0 10.72.136.1 --- FA 9/0: 10.72.136.2)
+
+    local networks in first outside area (R_ba_3, FA 7/0 and FA 8/0): 10.72.145.0/24 and 10.72.146.0/24
+    local networks in second outside area (R_ba_4, FA 7/0 and FA 8/0): 10.72.153.0/24 and 10.72.154.0/24
+    
+	local networks in first main area (R_ba_1, FA 6/0): 10.72.129.0/24 
+    local networks in second main area (R_ba_2, FA 7/0): 10.72.137.0/24
+
+	default gateway address pattern: 10.x.x.1
+	PC address patterns: 10.x.x.2 and 10.x.x.3
+
+provider links and public addresses:
+	Provider router - R_ba_0
+	R_ba_1 --- R_ba_0 10.72.128.8 255.255.255.252 (GIGA 9/0: 10.72.128.8 --- GIGA 6/0: 10.72.128.9)
+	public addresses: 100.2.0.0/24
+
+Router configuration:
+	
+	R_ba_1:
+	
+		enable
+		configure terminal
+	
+		hostname R_ba_1
+
+		!# interface configuration
+
+		interface fastEthernet 6/0
+		ip address 10.72.129.1 255.255.255.0
+		no shutdown
+		exit
+	
+		interface fastEthernet 7/0
+		ip address 10.72.128.1 255.255.255.252
+		no shutdown
+		exit
+	
+		interface fastEthernet 8/0
+		ip address 10.72.128.5 255.255.255.252
+		no shutdown
+		exit
+	
+		interface gigabitEthernet 9/0
+		ip address 10.72.128.8 255.255.255.252
+		no shutdown
+		exit
+		
+		!# RIP configuration
+		router rip
+		version 2
+		network 10.72.0.0
+		
+		exit
+		exit
+		
+	----------------
+	
+	R_ba_2:
+	
+		enable
+		configure terminal
+	
+		hostname R_ba_2
+
+		!# interface configuration
+
+		interface fastEthernet 7/0
+		ip address 10.72.137.1 255.255.255.0
+		no shutdown
+		exit
+
+		interface fastEthernet 8/0
+		ip address 10.72.136.1 255.255.255.252
+		no shutdown
+		exit
+		
+		interface fastEthernet 9/0
+		ip address 10.72.128.2 255.255.255.252
+		no shutdown
+		exit
+
+		!# RIP configuration
+		router rip
+		version 2
+		network 10.0.0.0
+		
+		exit
+		exit
+	
+	----------------
+	
+	R_ba_3:
+	
+		enable
+		configure terminal
+	
+		hostname R_ba_3
+
+		!# interface configuration
+
+		interface fastEthernet 7/0
+		ip address 10.72.145.1 255.255.255.0
+		no shutdown
+		exit
+		
+		interface fastEthernet 8/0
+		ip address 10.72.146.1 255.255.255.0
+		no shutdown
+		exit
+		
+		interface fastEthernet 9/0
+		ip address 10.72.128.6 255.255.255.252
+		no shutdown
+		exit
+
+		!# RIP configuration
+		router rip
+		version 2
+		network 10.0.0.0
+		
+		exit
+		exit
+	
+	----------------
+	
+	R_ba_4:
+	
+		enable
+		configure terminal
+	
+		hostname R_ba_4
+
+		!# interface configuration
+
+		interface fastEthernet 7/0
+		ip address 10.72.153.1 255.255.255.0
+		no shutdown
+		exit
+		
+		interface fastEthernet 8/0
+		ip address 10.72.154.1 255.255.255.0
+		no shutdown
+		exit
+		
+		interface fastEthernet 9/0
+		ip address 10.72.136.2 255.255.255.252
+		no shutdown
+		exit
+
+		!# RIP configuration
+		router rip
+		version 2
+		network 10.0.0.0
+	
+		exit
+		exit
+	
+	----------------

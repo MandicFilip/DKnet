@@ -1,0 +1,126 @@
+Network for North Macedonia - 10.72.192.0/18
+
+  routers: R_mk_1, R_mk_2, R_mk_3
+
+  IP addresses:
+    private addresses scope: 10.72.192.0 - 10.72.255.255
+
+    links between routers: 
+      R_mk_1 --- R_mk_2: 10.72.192.0 255.255.255.252 (GIGA 7/0: 10.72.192.1 --- GIGA 9/0: 10.72.192.2)
+      R_mk_1 --- R_mk_3: 10.72.192.4 255.255.255.252 (GIGA 8/0: 10.72.192.5 --- GIGA 9/0: 10.72.192.6)
+
+    local networks in first outside area (R_mk_2, FA 7/0 and FA 8/0): 10.72.209.0/24 and 10.72.210.0/24
+    local networks in second outside area (R_mk_3, FA 7/0 and FA 8/0): 10.72.225.0/24 and 10.72.226.0/24
+    
+	local networks in main area (R_mk_1, FA 6/0): 10.72.193.0/24
+
+	default gateway address pattern: 10.72.x.1
+	PC address patterns: 10.72.x.2 and 10.72.x.3
+
+provider links and public addresses:
+	Provider router - R_mk_0
+	R_mk_1 --- R_mk_0 10.72.192.8 255.255.255.252 (GIGA 9/0: 10.72.192.9 --- GIGA 6/0: 10.72.192.10)
+	public addresses: 100.3.0.0/24
+
+Router configuration:
+	
+	R_mk_1:
+	
+		enable
+		configure terminal
+	
+		hostname R_mk_1
+
+		!# interface configuration
+	
+		interface fastEthernet 6/0
+		ip address 10.72.193.1 255.255.255.0
+		no shutdown
+		exit
+		
+		interface gigabitEthernet 7/0
+		ip address 10.72.192.1 255.255.255.252
+		no shutdown
+		exit
+	
+		interface gigabitEthernet 8/0
+		ip address 10.72.192.5 255.255.255.252
+		no shutdown
+		exit
+	
+		interface gigabitEthernet 9/0
+		ip address 10.72.192.9 255.255.255.252
+		no shutdown
+		exit
+		
+		!# Default route
+		!# ip route 0.0.0.0 0.0.0.0 10.72.192.10
+		
+		ip route 10.72.208.0 255.255.240.0 10.72.192.2
+		ip route 10.72.224.0 255.255.240.0 10.72.192.6
+		
+		exit
+	
+	----------------
+	
+	R_mk_2:
+	
+		enable
+		configure terminal
+	
+		hostname R_mk_2
+		
+		!# interface configuration
+		
+		interface fastEthernet 7/0
+		ip address 10.72.209.1 255.255.255.0
+		no shutdown
+		exit
+		
+		interface fastEthernet 8/0
+		ip address 10.72.210.1 255.255.255.0
+		no shutdown
+		exit
+		
+		interface gigabitEthernet 9/0
+		ip address 10.72.192.2 255.255.255.252
+		no shutdown
+		exit
+	
+		!# Static routes
+		ip route 0.0.0.0 0.0.0.0 10.72.192.1
+	
+		exit
+		
+	----------------
+	
+	R_mk_3:
+	
+		enable
+		configure terminal
+	
+		hostname R_mk_3
+
+		!# interface configuration
+		
+		interface fastEthernet 7/0
+		ip address 10.72.225.1 255.255.255.0
+		no shutdown
+		exit
+		
+		interface fastEthernet 8/0
+		ip address 10.72.226.1 255.255.255.0
+		no shutdown
+		exit
+		
+		interface gigabitEthernet 9/0
+		ip address 10.72.192.6 255.255.255.252
+		no shutdown
+		exit
+	
+		!# Static routes
+		ip route 0.0.0.0 0.0.0.0 10.72.192.5
+	
+		exit
+
+	----------------
