@@ -1,17 +1,18 @@
 DKnet.rs
 
 Backbone area: (10.72.0.0/20)
-	routers: R_bg_01, R_ns_1, R_ni_1, R_bg_02
+	routers: R_bg_01, R_ns_0, R_ni_0, R_bg_02
 
 	IP addresses:
 		private addresses scope: 10.72.32.0 - 10.72.47.255
 
     links between routers: 
-		R_bg_01 --- R_ns_1: 10.72.0.0 255.255.255.252 (FA 7/0: 10.72.0.1 --- FA 9/0: 10.72.0.2)
-		R_bg_01 --- R_ni_1: 10.72.0.4 255.255.255.252 (FA 8/0: 10.72.0.5 --- FA 9/0: 10.72.0.6)
-		R_bg_01 --- R_bg_02: 10.72.0.8 255.255.255.252 (FA 8/0: 10.72.0.9 --- FA 9/0: 10.72.0.10)
-		R_bg_02 --- R_ns_1: 10.72.0.12 255.255.255.252 (FA 8/0: 10.72.0.13 --- FA 9/0: 10.72.0.14)
-		R_bg_02 --- R_ni_1: 10.72.0.16 255.255.255.252 (FA 8/0: 10.72.0.17 --- FA 9/0: 10.72.0.18)
+		R_bg_01 --- R_ns_0: 10.72.0.0 255.255.255.252 (GIGA 9/0: 10.72.0.1 --- GIGA 7/0: 10.72.0.2)
+		R_bg_01 --- R_ni_0: 10.72.0.4 255.255.255.252 (GIGA 8/0: 10.72.0.5 --- GIGA 8/0: 10.72.0.6)
+		R_bg_01 --- R_bg_02: 10.72.0.8 255.255.255.252 (SER 0/0: 10.72.0.9 --- SER 2/0: 10.72.0.10)
+		R_bg_02 --- R_ns_0: 10.72.0.12 255.255.255.252 (SER 0/0: 10.72.0.13 --- SER 0/0: 10.72.0.14)
+		R_bg_02 --- R_ni_0: 10.72.0.16 255.255.255.252 (SER 1/0: 10.72.0.17 --- SER 0/0: 10.72.0.18)
+		R_ns_0 --- R_ni_0: 10.72.0.20 255.255.255.252 (GIGA 7/0: 10.72.0.21 --- GIGA 7/0: 10.72.0.22)
 
 
 Router configuration:
@@ -35,10 +36,10 @@ Router configuration:
 		no shutdown
 		exit
 		
-		!# TODO interface gigabitEthernet 7/0
-		!# ip address 10.72.192.9 255.255.255.252
-		!# no shutdown
-		!# exit
+		interface gigabitEthernet 7/0
+		ip address 10.72.16.1 255.255.255.252
+		no shutdown
+		exit
 		
 		interface gigabitEthernet 8/0
 		ip address 10.72.0.5 255.255.255.252
@@ -55,9 +56,24 @@ Router configuration:
 		no shutdown
 		exit
 		
-		!# TODO OSPF
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.0.0 0.0.15.255 area 0
+		network 10.72.16.0 0.0.15.255 area 1
+		default-information originate
+		exit
 		
-		!# TODO BGP
+		!# static route for BGP
+		ip route 10.72.0.0 255.255.192.0 null 0
+		
+		!# BGP configuration
+		router bgp 1000
+		neighbor 10.1.0.13 remote-as 100
+		neighbor 10.5.0.1 remote-as 500
+		network 10.72.0.0 mask 10.72.192.0
+		exit
+		
+		!# TODO NAT
 		
 		exit
 	
@@ -74,34 +90,218 @@ Router configuration:
 		
 		interface serial 0/0
 		address 10.72.0.13 255.255.255.252
+		clock rate 2000000
 		no shutdown
 		exit
 		
 		interface serial 1/0
 		address 10.72.0.17 255.255.255.252
+		clock rate 2000000
 		no shutdown
 		exit
 		
 		interface serial 2/0
 		address 10.72.0.9 255.255.255.252
+		clock rate 2000000
 		no shutdown
 		exit
 		
-		!# TODO interface serial 3/0
-		!# address 10.72.0.9 255.255.255.252
-		!# no shutdown
-		!# exit
+		interface serial 3/0
+		address 10.72.16.5 255.255.255.252
+		clock rate 2000000
+		no shutdown
+		exit
 	
-		!# TODO OSPF
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.0.0 0.0.15.255 area 0
+		network 10.72.16.0 0.0.15.255 area 1
+		exit
+		
+		exit
+		
+	----------------
 	
+	R_ns_0:
+	
+		enable
+		configure terminal
+	
+		hostname R_ns_0
+
+		!# interface configuration
+		
+		interface gigabitEthernet 7/0
+		ip address 10.72.0.21 255.255.255.252
+		no shutdown
+		exit
+	
+		interface gigabitEthernet 8/0
+		ip address 10.72.0.2 255.255.255.252
+		no shutdown
+		exit
+	
+		interface gigabitEthernet 9/0
+		ip address 10.72.32.9 255.255.255.252
+		no shutdown
+		exit
+		
+		interface serial 0/0
+		ip address 10.72.0.14 255.255.255.252
+		no shutdown
+		exit
+		
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.0.0 0.0.15.255 area 0
+		network 10.72.32.0 0.0.15.255 area 2
+		area 2 stub
+		exit
+		
+		exit
+		
+	----------------
+	
+	R_ni_0:
+	
+		enable
+		configure terminal
+	
+		hostname R_ni_0
+
+		!# interface configuration
+	
+		interface gigabitEthernet 7/0
+		ip address 10.72.0.22 255.255.255.252
+		no shutdown
+		exit
+	
+		interface gigabitEthernet 8/0
+		ip address 10.72.0.6 255.255.255.252
+		no shutdown
+		exit
+	
+		interface gigabitEthernet 9/0
+		ip address 10.72.48.1 255.255.255.252
+		no shutdown
+		exit
+		
+		interface serial 0/0
+		ip address 10.72.0.18 255.255.255.252
+		no shutdown
+		exit
+		
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.0.0 0.0.15.255 area 0
+		exit
+		
+		!# TODO RIP
+		
+		exit
+		
+	----------------
+-----------------------------------------------------------------------------------------------------------------------
+Belgrade: (10.72.16.0/20)
+
+	routers: R_bg_01, R_bg_02, R_bg_1, R_bg_2
+
+	IP addresses:
+		private addresses scope: 10.72.16.0 - 10.72.31.255
+
+    links between routers: 
+		R_bg_01 --- R_bg_1: 10.72.16.0 255.255.255.252 (GIGA 7/0: 10.72.16.1 --- GIGA 9/0: 10.72.16.2)
+		R_bg_02 --- R_bg_1: 10.72.16.4 255.255.255.252 (SER 3/0: 10.72.16.5 --- SER 7/0: 10.72.16.6)
+		R_bg_1 --- R_bg_2: 10.72.17.0 255.255.255.252 (FA 0/0: 10.72.17.1 --- FA 9/0: 10.72.17.2)
+
+		local networks in outside area (R_bg_2, FA 7/0 and FA 8/0): 10.72.17.128/27 and 10.72.17.160/27
+		
+		local networks in main area (R_bg_1, GIGA 8/0): 10.72.18.0/24
+
+Router configuration:
+	
+	R_bg_1:
+	
+		enable
+		configure terminal
+	
+		hostname R_bg_1
+
+		!# interface configuration
+	
+		interface fastEthernet 0/0
+		ip address 10.72.17.1 255.255.255.252
+		no shutdown
+		exit
+		
+		interface serial 7/0
+		ip address 10.72.16.6 255.255.255.252
+		no shutdown
+		exit
+	
+		interface gigabitEthernet 8/0
+		ip address 10.72.18.1 255.255.255.0
+		no shutdown
+		exit
+	
+		interface gigabitEthernet 9/0
+		ip address 10.72.16.2 255.255.255.252
+		no shutdown
+		exit
+
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.16.0 0.0.15.255 area 1
+		exit
+		
+		
+		!# TODO ACL
+		
+		exit
+	
+	----------------
+	
+	R_bg_2:
+	
+		enable
+		configure terminal
+	
+		hostname R_bg_2
+		
+		!# interface configuration
+		
+		interface fastEthernet 7/0
+		ip address 10.72.17.129 255.255.255.224
+		no shutdown
+		exit
+		
+		interface fastEthernet 8/0
+		ip address 10.72.17.161 255.255.255.224
+		no shutdown
+		exit
+		
+		interface fastEthernet 9/0
+		ip address 10.72.17.2 255.255.255.252
+		no shutdown
+		exit
+	
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.16.0 0.0.15.255 area 1
+		exit
+		
 		exit
 		
 	----------------
 
+Switch configuration:
+
+TODO
+
 -----------------------------------------------------------------------------------------------------------------------
 Novi Sad: (10.72.32.0/20)
 
-	routers: R_ns_1, R_ns_2, R_ns_3
+	routers: R_ns_0, R_ns_1, R_ns_2, R_ns_3
 
 	IP addresses:
 		private addresses scope: 10.72.32.0 - 10.72.47.255
@@ -109,6 +309,7 @@ Novi Sad: (10.72.32.0/20)
     links between routers: 
 		R_ns_1 --- R_ns_2: 10.72.32.0 255.255.255.252 (FA 7/0: 10.72.32.1 --- FA 9/0: 10.72.32.2)
 		R_ns_1 --- R_ns_3: 10.72.32.4 255.255.255.252 (FA 8/0: 10.72.32.5 --- FA 9/0: 10.72.32.6)
+		R_ns_0 --- R_ns_1: 10.72.32.8 255.255.255.252 (GIGA 9/0: 10.72.32.9 --- GIGA 9/0: 10.72.32.10)
 
 		local networks in first outside area (R_ns_2, FA 7/0 and FA 8/0): 10.72.36.0/24 and 10.72.37.0/24
 		local networks in second outside area (R_ns_3, FA 7/0 and FA 8/0): 10.72.40.0/24 and 10.72.41.0/24
@@ -142,16 +343,15 @@ Router configuration:
 		exit
 	
 		interface gigabitEthernet 9/0
-		ip address 10.72.0.2 255.255.255.252
+		ip address 10.72.32.10 255.255.255.252
 		no shutdown
 		exit
-		
-		interface serial 0/0
-		ip address 10.72.0.14 255.255.255.252
-		no shutdown
+
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.32.0 0.0.15.255 area 2
+		area 2 stub
 		exit
-		
-		!# TODO OSPF
 		
 		exit
 	
@@ -181,8 +381,12 @@ Router configuration:
 		no shutdown
 		exit
 	
-		!# TODO OSPF
-	
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.32.0 0.0.15.255 area 2
+		area 2 stub
+		exit
+		
 		exit
 		
 	----------------
@@ -211,28 +415,33 @@ Router configuration:
 		no shutdown
 		exit
 	
-		!# TODO OSPF
-	
+		!# OSPF configuration
+		router ospf 1
+		network 10.72.32.0 0.0.15.255 area 2
+		area 2 stub
+		exit
+		
 		exit
 
 	----------------
 
 -----------------------------------------------------------------------------------------------------------------------
-Nis: (10.72.48.0/20)
+Nis: (10.72.48.0/24)
 
-	routers: R_ni_1, R_ni_2, R_ni_3
+	routers: R_ni_0, R_ni_1, R_ni_2, R_ni_3
 
 	IP addresses:
-		private addresses scope: 10.72.48.0 - 10.72.63.255
+		private addresses scope: 10.72.48.0 - 10.72.48.255
 
     links between routers: 
-		R_ni_1 --- R_ni_2: 10.72.48.0 255.255.255.252 (FA 7/0: 10.72.48.1 --- FA 9/0: 10.72.48.2)
-		R_ni_1 --- R_ni_3: 10.72.48.4 255.255.255.252 (FA 8/0: 10.72.48.5 --- FA 9/0: 10.72.48.6)
-
-		local networks in first outside area (R_ni_2, FA 7/0 and FA 8/0): 10.72.52.0/24 and 10.72.53.0/24
-		local networks in second outside area (R_ni_3, FA 7/0 and FA 8/0): 10.72.56.0/24 and 10.72.57.0/24
+		R_ni_0 --- R_ni_1: 10.72.48.0 255.255.255.252 (GIGA 9/0: 10.72.48.1 --- GIGA 9/0: 10.72.48.2)
+		R_ni_1 --- R_ni_2: 10.72.48.64 255.255.255.252 (FA 7/0: 10.72.48.65 --- FA 9/0: 10.72.48.66)
+		R_ni_1 --- R_ni_3: 10.72.48.128 255.255.255.252 (FA 8/0: 10.72.48.129 --- FA 9/0: 10.72.48.130)
+		
+		local networks in first outside area (R_ni_2, FA 7/0 and FA 8/0): 10.72.48.96/28 and 10.72.48.112/28
+		local networks in second outside area (R_ni_3, FA 7/0 and FA 8/0): 10.72.48.160/28 and 10.72.48.176/28
     
-		local networks in main area (R_ni_1, FA 6/0): 10.72.49.0/24
+		local networks in main area (R_ni_1, FA 6/0): 10.72.48.32/28
 
 Router configuration:
 	
@@ -246,27 +455,22 @@ Router configuration:
 		!# interface configuration
 	
 		interface fastEthernet 6/0
-		ip address 10.72.49.1 255.255.255.0
+		ip address 10.72.48.33 255.255.255.240
 		no shutdown
 		exit
 		
 		interface fastEthernet 7/0
-		ip address 10.72.48.1 255.255.255.252
+		ip address 10.72.48.65 255.255.255.252
 		no shutdown
 		exit
 	
 		interface fastEthernet 8/0
-		ip address 10.72.48.5 255.255.255.252
+		ip address 10.72.48.129 255.255.255.252
 		no shutdown
 		exit
 	
 		interface gigabitEthernet 9/0
-		ip address 10.72.0.6 255.255.255.252
-		no shutdown
-		exit
-		
-		interface serial 0/0
-		ip address 10.72.0.18 255.255.255.252
+		ip address 10.72.48.2 255.255.255.252
 		no shutdown
 		exit
 		
@@ -286,17 +490,17 @@ Router configuration:
 		!# interface configuration
 		
 		interface fastEthernet 7/0
-		ip address 10.72.52.1 255.255.255.0
+		ip address 10.72.48.97 255.255.255.240
 		no shutdown
 		exit
 		
 		interface fastEthernet 8/0
-		ip address 10.72.53.1 255.255.255.0
+		ip address 10.72.48.113 255.255.255.240
 		no shutdown
 		exit
 		
 		interface fastEthernet 9/0
-		ip address 10.72.48.2 255.255.255.252
+		ip address 10.72.48.66 255.255.255.252
 		no shutdown
 		exit
 	
@@ -316,17 +520,17 @@ Router configuration:
 		!# interface configuration
 		
 		interface fastEthernet 7/0
-		ip address 10.72.56.1 255.255.255.0
+		ip address 10.72.48.161 255.255.255.240
 		no shutdown
 		exit
 		
 		interface fastEthernet 8/0
-		ip address 10.72.57.1 255.255.255.0
+		ip address 10.72.48.176 255.255.255.240
 		no shutdown
 		exit
 		
 		interface fastEthernet 9/0
-		ip address 10.72.48.6 255.255.255.252
+		ip address 10.72.48.130 255.255.255.252
 		no shutdown
 		exit
 	

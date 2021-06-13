@@ -240,6 +240,7 @@ Router configuration:
 		router bgp 500
 		neighbor 100.1.0.9 remote-as 100
 		neighbor 100.3.0.5 remote-as 300
+		neighbor 100.5.0.2 remote-as 1000
 		exit
 		
 		exit
