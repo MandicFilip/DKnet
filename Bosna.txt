@@ -61,7 +61,7 @@ Router configuration:
 		!# RIP configuration
 		router rip
 		version 2
-		network 10.0.0.0
+		network 10.72.0.0
 		default-information originate
 		exit
 		
@@ -96,7 +96,7 @@ Router configuration:
 		!# RIP configuration
 		router rip
 		version 2
-		network 10.0.0.0
+		network 10.72.0.0
 		
 		exit
 		exit
@@ -130,7 +130,7 @@ Router configuration:
 		!# RIP configuration
 		router rip
 		version 2
-		network 10.0.0.0
+		network 10.72.0.0
 		
 		exit
 		exit
@@ -164,7 +164,7 @@ Router configuration:
 		!# RIP configuration
 		router rip
 		version 2
-		network 10.0.0.0
+		network 10.72.0.0
 	
 		exit
 		exit

@@ -56,6 +56,9 @@ Router configuration:
 		no shutdown
 		exit
 		
+		!# default route for OSPF
+		ip route 0.0.0.0 0.0.0.0 10.1.0.13
+		
 		!# OSPF configuration
 		router ospf 1
 		network 10.72.0.0 0.0.15.255 area 0
@@ -196,7 +199,23 @@ Router configuration:
 		network 10.72.0.0 0.0.15.255 area 0
 		exit
 		
-		!# TODO RIP
+		!# RIP configuration
+		router rip
+		version 2
+		network 10.72.48.0
+		default-information originate
+		exit
+		
+		!# redistribution RIP -> OSPF
+		router ospf 1
+		redistribute rip subnets
+		exit
+		
+		!# redistribution OSPF -> RIP
+		router rip
+		redistribute ospf 1 metric 5
+		exit
+		
 		
 		exit
 		
@@ -474,7 +493,11 @@ Router configuration:
 		no shutdown
 		exit
 		
-		!# TODO RIP
+		!# RIP configuration
+		router rip
+		version 2
+		network 10.72.48.0
+		exit
 		
 		exit
 	
@@ -504,7 +527,11 @@ Router configuration:
 		no shutdown
 		exit
 	
-		!# TODO RIP
+		!# RIP configuration
+		router rip
+		version 2
+		network 10.72.48.0
+		exit
 	
 		exit
 		
@@ -534,7 +561,11 @@ Router configuration:
 		no shutdown
 		exit
 	
-		!# TODO RIP
+		!# RIP configuration
+		router rip
+		version 2
+		network 10.72.48.0
+		exit
 	
 		exit
 
