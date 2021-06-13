@@ -4,7 +4,7 @@ Backbone area: (10.72.0.0/20)
 	routers: R_bg_01, R_ns_0, R_ni_0, R_bg_02
 
 	IP addresses:
-		private addresses scope: 10.72.32.0 - 10.72.47.255
+		private addresses scope: 10.72.0.0 - 10.72.15.255
 
     links between routers: 
 		R_bg_01 --- R_ns_0: 10.72.0.0 255.255.255.252 (GIGA 9/0: 10.72.0.1 --- GIGA 7/0: 10.72.0.2)
@@ -52,12 +52,12 @@ Router configuration:
 		exit
 		
 		interface serial 0/0
-		address 10.72.0.10 255.255.255.252
+		ip address 10.72.0.10 255.255.255.252
 		no shutdown
 		exit
 		
 		!# default route for OSPF
-		ip route 0.0.0.0 0.0.0.0 10.1.0.13
+		ip route 0.0.0.0 0.0.0.0 100.1.0.13
 		
 		!# OSPF configuration
 		router ospf 1
@@ -71,9 +71,9 @@ Router configuration:
 		
 		!# BGP configuration
 		router bgp 1000
-		neighbor 10.1.0.13 remote-as 100
-		neighbor 10.5.0.1 remote-as 500
-		network 10.72.0.0 mask 10.72.192.0
+		neighbor 100.1.0.13 remote-as 100
+		neighbor 100.5.0.1 remote-as 500
+		network 10.72.0.0 mask 255.255.192.0
 		exit
 		
 		!# TODO NAT
@@ -552,7 +552,7 @@ Router configuration:
 		exit
 		
 		interface fastEthernet 8/0
-		ip address 10.72.48.176 255.255.255.240
+		ip address 10.72.48.177 255.255.255.240
 		no shutdown
 		exit
 		
