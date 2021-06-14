@@ -63,7 +63,7 @@ Router configuration:
 		exit
 		exit
 		
-	----------------
+	-----------------------------------
 
 	R_me_2:
 	
@@ -106,7 +106,7 @@ Router configuration:
 		exit
 		exit
 		
-	----------------
+	-----------------------------------
 
 	R_me_3:
 	
@@ -144,7 +144,7 @@ Router configuration:
 		exit
 		exit
 		
-	----------------
+	-----------------------------------
 
 	R_me_4:
 	
@@ -182,7 +182,7 @@ Router configuration:
 		exit
 		exit
 		
-	----------------
+	-----------------------------------
 
 	R_me_5:
 	
@@ -232,11 +232,9 @@ Router configuration:
 		default-information originate
 		exit
 		
-		
-		
 		exit
 		
-	----------------
+	-----------------------------------
 
 	R_me_6:
 	
@@ -269,4 +267,4 @@ Router configuration:
 		exit
 		exit
 		
-	----------------
+	-----------------------------------

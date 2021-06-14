@@ -80,7 +80,7 @@ Router configuration:
 		
 		exit
 	
-	----------------
+	-----------------------------------
 	
 	R_bg_02:
 	
@@ -123,7 +123,7 @@ Router configuration:
 		
 		exit
 		
-	----------------
+	-----------------------------------
 	
 	R_ns_0:
 	
@@ -163,7 +163,7 @@ Router configuration:
 		
 		exit
 		
-	----------------
+	-----------------------------------
 	
 	R_ni_0:
 	
@@ -219,7 +219,8 @@ Router configuration:
 		
 		exit
 		
-	----------------
+	-----------------------------------
+	-----------------------------------
 -----------------------------------------------------------------------------------------------------------------------
 Belgrade: (10.72.16.0/20)
 
@@ -258,10 +259,36 @@ Router configuration:
 		no shutdown
 		exit
 	
+	
+		interface gigabitEthernet 8/0.1
+		encapsulation dot1Q 10
+		ip address 10.72.18.1 255.255.255.224
+		exit
+		
+		interface gigabitEthernet 8/0.2
+		encapsulation dot1Q 20
+		ip address 10.72.18.33 255.255.255.224
+		exit
+		
+		interface gigabitEthernet 8/0.3
+		encapsulation dot1Q 30
+		ip address 10.72.18.65 255.255.255.224
+		exit
+		
+		interface gigabitEthernet 8/0.4
+		encapsulation dot1Q 40
+		ip address 10.72.18.97 255.255.255.224
+		exit
+	
+		interface gigabitEthernet 8/0.5
+		encapsulation dot1Q 50
+		ip address 10.72.18.129 255.255.255.224
+		exit
+		
 		interface gigabitEthernet 8/0
-		ip address 10.72.18.1 255.255.255.0
 		no shutdown
 		exit
+	
 	
 		interface gigabitEthernet 9/0
 		ip address 10.72.16.2 255.255.255.252
@@ -278,7 +305,7 @@ Router configuration:
 		
 		exit
 	
-	----------------
+	-----------------------------------
 	
 	R_bg_2:
 	
@@ -311,11 +338,354 @@ Router configuration:
 		
 		exit
 		
-	----------------
+	-----------------------------------
 
 Switch configuration:
 
-TODO
+SW_11
+
+	enable
+	configure terminal
+	
+	hostname SW_11
+
+	vlan 10
+	name FINANCES
+	exit
+	
+	vlan 20
+	name MARKETING
+	exit
+	
+	vlan 30
+	name LOGISTICS
+	exit
+	
+	vlan 40
+	name IT
+	exit
+	
+	vlan 50
+	name SERVERS
+	exit
+	
+	interface fastEthernet 1/1
+	switchport mode access
+	switchport access vlan 10
+	exit
+	
+	interface fastEthernet 2/1
+	switchport mode access
+	switchport access vlan 20
+	exit
+	
+	interface fastEthernet 3/1
+	switchport mode access
+	switchport access vlan 30
+	exit
+	
+	interface fastEthernet 4/1
+	switchport mode access
+	switchport access vlan 40
+	exit
+	
+	interface fastEthernet 5/1
+	switchport mode trunk
+	exit
+	
+	interface fastEthernet 6/1
+	switchport mode trunk
+	exit
+	
+	interface gigabitEthernet 8/1
+	switchport mode trunk
+	exit
+	
+	interface gigabitEthernet 9/1
+	switchport mode trunk
+	exit
+	
+	exit
+	
+	-----------------------------------
+	
+SW_10
+
+	enable
+	configure terminal
+	
+	hostname SW_10
+
+	vlan 10
+	name FINANCES
+	exit
+	
+	vlan 20
+	name MARKETING
+	exit
+	
+	vlan 30
+	name LOGISTICS
+	exit
+	
+	vlan 40
+	name IT
+	exit
+	
+	vlan 50
+	name SERVERS
+	exit
+	
+	interface fastEthernet 0/1
+	switchport mode access
+	switchport access vlan 10
+	exit
+	
+	interface fastEthernet 0/2
+	switchport mode access
+	switchport access vlan 20
+	exit
+	
+	interface fastEthernet 0/3
+	switchport mode access
+	switchport access vlan 30
+	exit
+	
+	interface fastEthernet 0/4
+	switchport mode access
+	switchport access vlan 40
+	exit
+	
+	interface fastEthernet 0/5
+	switchport mode access
+	switchport access vlan 50
+	exit
+	
+	interface fastEthernet 0/6
+	switchport mode trunk
+	exit
+	
+	exit
+	
+	-----------------------------------	
+	
+SW_12
+
+	enable
+	configure terminal
+	
+	hostname SW_12
+
+	vlan 10
+	name FINANCES
+	exit
+	
+	vlan 20
+	name MARKETING
+	exit
+	
+	vlan 30
+	name LOGISTICS
+	exit
+	
+	vlan 40
+	name IT
+	exit
+	
+	vlan 50
+	name SERVERS
+	exit
+	
+	interface fastEthernet 0/1
+	switchport mode access
+	switchport access vlan 10
+	exit
+	
+	interface fastEthernet 0/2
+	switchport mode access
+	switchport access vlan 20
+	exit
+	
+	interface fastEthernet 0/3
+	switchport mode access
+	switchport access vlan 30
+	exit
+	
+	interface fastEthernet 0/4
+	switchport mode access
+	switchport access vlan 40
+	exit
+	
+	interface fastEthernet 0/5
+	switchport mode trunk
+	exit
+	
+	exit
+	
+	-----------------------------------	
+	
+SW_21
+
+	enable
+	configure terminal
+	
+	hostname SW_21
+
+	vlan 10
+	name FINANCES
+	exit
+	
+	vlan 20
+	name MARKETING
+	exit
+	
+	vlan 30
+	name LOGISTICS
+	exit
+	
+	vlan 40
+	name IT
+	exit
+	
+	vlan 50
+	name SERVERS
+	exit
+	
+	interface fastEthernet 1/1
+	switchport mode access
+	switchport access vlan 10
+	exit
+	
+	interface fastEthernet 2/1
+	switchport mode access
+	switchport access vlan 20
+	exit
+	
+	interface fastEthernet 3/1
+	switchport mode access
+	switchport access vlan 30
+	exit
+	
+	interface fastEthernet 4/1
+	switchport mode access
+	switchport access vlan 40
+	exit
+	
+	interface fastEthernet 5/1
+	switchport mode trunk
+	exit
+	
+	interface fastEthernet 6/1
+	switchport mode trunk
+	exit
+	
+	interface gigabitEthernet 8/1
+	switchport mode trunk
+	exit
+
+	exit
+	
+	-----------------------------------
+	
+SW_20
+
+	enable
+	configure terminal
+	
+	hostname SW_20
+
+	vlan 10
+	name FINANCES
+	exit
+	
+	vlan 20
+	name MARKETING
+	exit
+	
+	vlan 30
+	name LOGISTICS
+	exit
+	
+	vlan 40
+	name IT
+	exit
+	
+	vlan 50
+	name SERVERS
+	exit
+	
+	interface fastEthernet 0/1
+	switchport mode access
+	switchport access vlan 50
+	exit
+	
+	interface fastEthernet 0/2
+	switchport mode access
+	switchport access vlan 50
+	exit
+	
+	interface fastEthernet 0/5
+	switchport mode trunk
+	exit
+	
+	exit
+	
+	-----------------------------------	
+	
+SW_22
+
+	enable
+	configure terminal
+	
+	hostname SW_22
+
+	vlan 10
+	name FINANCES
+	exit
+	
+	vlan 20
+	name MARKETING
+	exit
+	
+	vlan 30
+	name LOGISTICS
+	exit
+	
+	vlan 40
+	name IT
+	exit
+	
+	vlan 50
+	name SERVERS
+	exit
+	
+	interface fastEthernet 0/1
+	switchport mode access
+	switchport access vlan 10
+	exit
+	
+	interface fastEthernet 0/2
+	switchport mode access
+	switchport access vlan 20
+	exit
+	
+	interface fastEthernet 0/3
+	switchport mode access
+	switchport access vlan 30
+	exit
+	
+	interface fastEthernet 0/4
+	switchport mode access
+	switchport access vlan 40
+	exit
+	
+	interface fastEthernet 0/6
+	switchport mode trunk
+	exit
+	
+	exit
+	
+	-----------------------------------	
 
 -----------------------------------------------------------------------------------------------------------------------
 Novi Sad: (10.72.32.0/20)
@@ -374,7 +744,7 @@ Router configuration:
 		
 		exit
 	
-	----------------
+	-----------------------------------
 	
 	R_ns_2:
 	
@@ -408,7 +778,7 @@ Router configuration:
 		
 		exit
 		
-	----------------
+	-----------------------------------
 	
 	R_ns_3:
 	
@@ -442,7 +812,7 @@ Router configuration:
 		
 		exit
 
-	----------------
+	-----------------------------------
 
 -----------------------------------------------------------------------------------------------------------------------
 Nis: (10.72.48.0/24)
@@ -501,7 +871,7 @@ Router configuration:
 		
 		exit
 	
-	----------------
+	-----------------------------------
 	
 	R_ni_2:
 	
@@ -535,7 +905,7 @@ Router configuration:
 	
 		exit
 		
-	----------------
+	-----------------------------------
 	
 	R_ni_3:
 	
@@ -569,4 +939,4 @@ Router configuration:
 	
 		exit
 
-	----------------
+	-----------------------------------
