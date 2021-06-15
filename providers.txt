@@ -85,39 +85,50 @@ Router configuration:
 		!# interface configuration
 		
 		interface gigabitEthernet 6/0
-		ip address 10.72.128.9 255.255.255.252
+		ip address 10.72.128.10 255.255.255.252
+		ip nat inside
 		no shutdown
 		exit
 		
 		interface gigabitEthernet 7/0
 		ip address 100.1.0.2 255.255.255.252
+		ip nat outside
 		no shutdown
 		exit
 	
 		interface gigabitEthernet 8/0
 		ip address 100.2.0.1 255.255.255.252
+		ip nat outside
 		no shutdown
 		exit
 	
 		interface gigabitEthernet 9/0
 		ip address 100.2.0.5 255.255.255.252
+		ip nat outside
 		no shutdown
 		exit
 		
-		ip route 10.72.128.0 255.255.192.0 10.72.128.9
+		interface loopback 0
+		ip address 100.2.0.129 255.255.255.128
+		exit
 		
-		!# NAT configuration
-		!# TODO
-		!# exit
+		ip route 10.72.128.0 255.255.192.0 10.72.128.9
 		
 		!# BGP configuration
 		router bgp 200
 		neighbor 100.1.0.1 remote-as 100
 		neighbor 100.2.0.2 remote-as 300
 		neighbor 100.2.0.6 remote-as 400
-		
-		network 10.72.128.0 mask 255.255.192.0
+		network 100.2.0.128 mask 255.255.255.128
 		exit
+		
+		!# NAT configuration
+		ip access-list standard NAT_INSIDE
+		permit 10.72.128.0 0.0.63.255
+		exit
+
+		ip nat pool NAT_OUTSIDE 100.2.0.128 100.2.0.255 netmask 255.255.255.128
+		ip nat inside source list NAT_INSIDE pool NAT_OUTSIDE
 		
 		exit
 		
@@ -134,43 +145,56 @@ Router configuration:
 		
 		interface gigabitEthernet 0/0
 		ip address 100.3.0.9 255.255.255.252
+		ip nat outside
 		no shutdown
 		exit
 		
 		interface gigabitEthernet 6/0
 		ip address 10.72.192.10 255.255.255.252
+		ip nat inside
 		no shutdown
 		exit
 
 		interface gigabitEthernet 7/0
 		ip address 100.3.0.5 255.255.255.252
+		ip nat outside
 		no shutdown
 		exit
 
 		interface gigabitEthernet 8/0
 		ip address 100.2.0.2 255.255.255.252
+		ip nat outside
 		no shutdown
 		exit
 
 		interface gigabitEthernet 9/0
 		ip address 100.3.0.1 255.255.255.252
+		ip nat outside
 		no shutdown
+		exit
+
+		interface loopback 0
+		ip address 100.4.0.129 255.255.255.128
 		exit
 
 		ip route 10.72.192.0 255.255.192.0 10.72.192.9
 	
-		!# NAT configuration
-		!# TODO
-		!# exit
-		
 		!# BGP configuration
 		router bgp 300
 		neighbor 100.2.0.1 remote-as 200
 		neighbor 100.3.0.2 remote-as 400
 		neighbor 100.3.0.6 remote-as 500
 		neighbor 100.3.0.10 remote-as 2000
-		network 10.72.192.0 mask 255.255.192.0
+		network 100.4.0.128 mask 255.255.255.128
 		exit
+		
+		!# NAT configuration
+		ip access-list standard NAT_INSIDE
+		permit 10.72.192.0 0.0.63.255
+		exit
+
+		ip nat pool NAT_OUTSIDE 100.4.0.128 100.4.0.255 netmask 255.255.255.128
+		ip nat inside source list NAT_INSIDE pool NAT_OUTSIDE
 		
 		exit
 		
@@ -187,35 +211,40 @@ Router configuration:
 
 		interface gigabitEthernet 0/0
 		ip address 100.4.0.1 255.255.255.252
+		ip nat outside
 		no shutdown
 		exit
 
 		interface gigabitEthernet 6/0
 		ip address 10.72.96.6 255.255.255.252
+		ip nat inside
 		no shutdown
 		exit
 		
 		interface gigabitEthernet 7/0
 		ip address 100.1.0.6 255.255.255.252
+		ip nat outside
 		no shutdown
 		exit
 	
 		interface gigabitEthernet 8/0
 		ip address 100.3.0.2 255.255.255.252
+		ip nat outside
 		no shutdown
 		exit
 	
 		interface gigabitEthernet 9/0
 		ip address 100.2.0.6 255.255.255.252
+		ip nat outside
 		no shutdown
 		exit
 	
+		interface loopback 0
+		ip address 100.3.0.129 255.255.255.128
+		exit
+
 		!# default ruta
 		ip route 10.72.64.0 255.255.192.0 10.72.96.5
-	
-		!# input NAT configuration
-		!# TODO 
-		!# exit
 	
 		!# BGP configuration
 		router bgp 400
@@ -223,8 +252,16 @@ Router configuration:
 		neighbor 100.2.0.5 remote-as 200
 		neighbor 100.3.0.1 remote-as 300
 		neighbor 100.4.0.2 remote-as 2000
-		network 10.72.64.0 mask 255.255.192.0
+		network 100.3.0.128 mask 255.255.255.128
 		exit
+		
+		!# NAT configuration
+		ip access-list standard NAT_INSIDE
+		permit 10.72.64.0 0.0.63.255
+		exit
+
+		ip nat pool NAT_OUTSIDE 100.3.0.128 100.3.0.255 netmask 255.255.255.128
+		ip nat inside source list NAT_INSIDE pool NAT_OUTSIDE
 		
 		exit
 		

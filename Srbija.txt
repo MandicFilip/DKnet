@@ -28,32 +28,42 @@ Router configuration:
 	
 		interface gigabitEthernet 5/0
 		ip address 100.5.0.2 255.255.255.252
+		ip nat outside
 		no shutdown
 		exit
 		
 		interface gigabitEthernet 6/0
 		ip address 100.1.0.14 255.255.255.252
+		ip nat outside
 		no shutdown
 		exit
 		
 		interface gigabitEthernet 7/0
 		ip address 10.72.16.1 255.255.255.252
+		ip nat inside
 		no shutdown
 		exit
 		
 		interface gigabitEthernet 8/0
 		ip address 10.72.0.5 255.255.255.252
+		ip nat inside
 		no shutdown
 		exit
 		
 		interface gigabitEthernet 9/0
 		ip address 10.72.0.1 255.255.255.252
+		ip nat inside
 		no shutdown
 		exit
 		
 		interface serial 0/0
 		ip address 10.72.0.10 255.255.255.252
+		ip nat inside
 		no shutdown
+		exit
+		
+		interface loopback 0
+		ip address 20.20.20.1 255.255.255.0
 		exit
 		
 		!# default route for OSPF
@@ -66,18 +76,37 @@ Router configuration:
 		default-information originate
 		exit
 		
-		!# static route for BGP
-		ip route 10.72.0.0 255.255.192.0 null 0
-		
 		!# BGP configuration
 		router bgp 1000
 		neighbor 100.1.0.13 remote-as 100
 		neighbor 100.5.0.1 remote-as 500
-		network 10.72.0.0 mask 255.255.192.0
+		network 20.20.20.0 mask 255.255.255.0
 		exit
 		
-		!# TODO NAT
-		
+		!# NAT configuration
+		ip access-list standard NAT_INSIDE_REST
+		permit 10.72.0.0 0.0.15.255
+		permit 10.72.32.0 0.0.15.255
+		permit 10.72.48.0 0.0.15.255
+
+		permit 10.72.16.0 0.0.0.255
+		permit 10.72.17.0 0.0.0.255
+
+		permit 10.72.18.0 0.0.0.63
+		permit 10.72.18.64 0.0.0.31
+		permit 10.72.18.128 0.0.0.127
+		exit
+
+		ip access-list standard NAT_INSIDE_REST
+		permit 10.72.18.96 0.0.0.31
+		exit
+
+		ip nat pool NAT_OUTSIDE_REST 20.20.20.0 20.20.20.127 netmask 255.255.255.128
+		ip nat pool NAT_OUTSIDE_IT 20.20.20.128 20.20.20.255 netmask 255.255.255.128
+
+		ip nat inside source list NAT_INSIDE_REST pool NAT_OUTSIDE_REST
+		ip nat inside source list NAT_INSIDE_IT pool NAT_OUTSIDE_IT
+
 		exit
 	
 	-----------------------------------
@@ -285,6 +314,16 @@ Router configuration:
 		ip address 10.72.18.129 255.255.255.224
 		exit
 		
+		interface gigabitEthernet 8/0.6
+		encapsulation dot1Q 60
+		ip address 10.72.18.161 255.255.255.248
+		exit
+		
+		interface gigabitEthernet 8/0.7
+		encapsulation dot1Q 70
+		ip address 10.72.18.169 255.255.255.248
+		exit
+		
 		interface gigabitEthernet 8/0
 		no shutdown
 		exit
@@ -301,8 +340,18 @@ Router configuration:
 		exit
 		
 		
-		!# TODO ACL
+		!# TODO BACKUP ACL
 		
+		ip access-list extended DNS_PROTECTION
+		5 permit ip 10.72.18.96 0.0.0.31 host 10.72.18.170
+		10 permit udp 10.72.0.0 0.0.63.255 host 10.72.18.170 eq 53
+		100 deny ip any host 10.72.18.170
+		exit
+
+		interface gigabitEthernet 8/0.7
+		ip access-group DNS_PROTECTION out
+		exit
+
 		exit
 	
 	-----------------------------------
@@ -367,6 +416,14 @@ SW_11
 	
 	vlan 50
 	name SERVERS
+	exit
+	
+	vlan 60
+	name BACKUP_SERVER
+	exit
+	
+	vlan 70
+	name DNS_SERVER
 	exit
 	
 	interface fastEthernet 1/1
@@ -436,6 +493,14 @@ SW_10
 	name SERVERS
 	exit
 	
+	vlan 60
+	name BACKUP_SERVER
+	exit
+	
+	vlan 70
+	name DNS_SERVER
+	exit
+	
 	interface fastEthernet 0/1
 	switchport mode access
 	switchport access vlan 10
@@ -496,6 +561,14 @@ SW_12
 	name SERVERS
 	exit
 	
+	vlan 60
+	name BACKUP_SERVER
+	exit
+	
+	vlan 70
+	name DNS_SERVER
+	exit
+	
 	interface fastEthernet 0/1
 	switchport mode access
 	switchport access vlan 10
@@ -549,6 +622,14 @@ SW_21
 	
 	vlan 50
 	name SERVERS
+	exit
+	
+	vlan 60
+	name BACKUP_SERVER
+	exit
+	
+	vlan 70
+	name DNS_SERVER
 	exit
 	
 	interface fastEthernet 1/1
@@ -614,17 +695,25 @@ SW_20
 	name SERVERS
 	exit
 	
+	vlan 60
+	name BACKUP_SERVER
+	exit
+	
+	vlan 70
+	name DNS_SERVER
+	exit
+	
 	interface fastEthernet 0/1
 	switchport mode access
-	switchport access vlan 50
+	switchport access vlan 60
 	exit
 	
-	interface fastEthernet 0/2
+	interface fastEthernet 1/1
 	switchport mode access
-	switchport access vlan 50
+	switchport access vlan 70
 	exit
 	
-	interface fastEthernet 0/5
+	interface fastEthernet 5/1
 	switchport mode trunk
 	exit
 	
@@ -657,6 +746,14 @@ SW_22
 	
 	vlan 50
 	name SERVERS
+	exit
+	
+	vlan 60
+	name BACKUP_SERVER
+	exit
+	
+	vlan 70
+	name DNS_SERVER
 	exit
 	
 	interface fastEthernet 0/1
