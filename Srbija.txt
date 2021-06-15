@@ -97,7 +97,7 @@ Router configuration:
 		permit 10.72.18.128 0.0.0.127
 		exit
 
-		ip access-list standard NAT_INSIDE_REST
+		ip access-list standard NAT_INSIDE_IT
 		permit 10.72.18.96 0.0.0.31
 		exit
 
