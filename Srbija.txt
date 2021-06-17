@@ -339,13 +339,41 @@ Router configuration:
 		network 10.72.16.0 0.0.15.255 area 1
 		exit
 		
+		ip access-list extended BACKUP_PROTECTION
+		5 permit ip 10.72.18.96 0.0.0.31 host 10.72.18.162
+		10 permit tcp host 10.72.18.2 eq 20 host 10.72.18.162
+		11 permit tcp host 10.72.18.2 eq 21 host 10.72.18.162
+		20 permit tcp host 10.72.18.34 eq 20 host 10.72.18.162
+		21 permit tcp host 10.72.18.34 eq 21 host 10.72.18.162
+		30 permit tcp host 10.72.18.66 eq 20 host 10.72.18.162
+		31 permit tcp host 10.72.18.66 eq 21 host 10.72.18.162
+		50 permit tcp host 10.72.18.130 eq 20 host 10.72.18.162
+		51 permit tcp host 10.72.18.130 eq 21 host 10.72.18.162
+		100 deny ip any host 10.72.18.162
+		exit
 		
-		!# TODO BACKUP ACL
-		
+		ip access-list extended BACKUP_PROTECTION_FROM_SERVER
+		5 permit ip host 10.72.18.162 10.72.18.96 0.0.0.31 
+		10 permit tcp host 10.72.18.162 eq 20 host 10.72.18.2
+		11 permit tcp host 10.72.18.162 eq 20 host 10.72.18.2
+		20 permit tcp host 10.72.18.162 eq 20 host 10.72.18.34 
+		21 permit tcp host 10.72.18.162 eq 21 host 10.72.18.34
+		30 permit tcp host 10.72.18.162 eq 20 host 10.72.18.66 
+		31 permit tcp host 10.72.18.162 eq 21 host 10.72.18.66
+		50 permit tcp host 10.72.18.162 eq 20 host 10.72.18.130
+		51 permit tcp host 10.72.18.162 eq 21 host 10.72.18.130
+		100 deny ip host 10.72.18.162 any
+		exit
+
 		ip access-list extended DNS_PROTECTION
 		5 permit ip 10.72.18.96 0.0.0.31 host 10.72.18.170
 		10 permit udp 10.72.0.0 0.0.63.255 host 10.72.18.170 eq 53
 		100 deny ip any host 10.72.18.170
+		exit
+
+		interface gigabitEthernet 8/0.6
+		ip access-group BACKUP_PROTECTION_FROM_SERVER in
+		ip access-group BACKUP_PROTECTION out
 		exit
 
 		interface gigabitEthernet 8/0.7
