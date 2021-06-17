@@ -333,7 +333,25 @@ Router configuration:
 		network 200.72.10.0 mask 255.255.255.240
 		exit
 		
-		!# TODO ACL
+		!# Access list
+		ip access-list extended CLOUD_PROTECTION
+		5 permit tcp 20.20.20.128 0.0.0.127 any eq 22
+		20 permit tcp any host 200.72.10.2 eq 80
+		21 permit tcp any host 200.72.10.2 eq 443
+		30 permit tcp any host 200.72.10.3 eq 25
+		31 permit tcp 100.2.0.128 0.0.0.127 host 200.72.10.3 eq 110
+		32 permit tcp 100.3.0.128 0.0.0.127 host 200.72.10.3 eq 110
+		33 permit tcp 100.4.0.128 0.0.0.127 host 200.72.10.3 eq 110
+		34 permit tcp 20.20.20.0 0.0.0.127 host 200.72.10.3 eq 110
+		35 permit tcp 20.20.20.128 0.0.0.127 host 200.72.10.3 eq 110
+		40 permit tcp any host 200.72.10.4 eq 80
+		41 permit tcp any host 200.72.10.4 eq 443
+		100 deny ip any any
+		exit
+		
+		interface gigabitEthernet 0/0
+		ip access-group CLOUD_PROTECTION out
+		exit
 		
 		exit
 		
