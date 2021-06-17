@@ -417,396 +417,396 @@ Router configuration:
 
 Switch configuration:
 
-SW_11
+	SW_11:
 
-	enable
-	configure terminal
+		enable
+		configure terminal
 	
-	hostname SW_11
+		hostname SW_11
 
-	vlan 10
-	name FINANCES
-	exit
+		vlan 10
+		name FINANCES
+		exit
 	
-	vlan 20
-	name MARKETING
-	exit
+		vlan 20
+		name MARKETING
+		exit
 	
-	vlan 30
-	name LOGISTICS
-	exit
+		vlan 30
+		name LOGISTICS
+		exit
 	
-	vlan 40
-	name IT
-	exit
+		vlan 40
+		name IT
+		exit
 	
-	vlan 50
-	name SERVERS
-	exit
+		vlan 50
+		name SERVERS
+		exit
 	
-	vlan 60
-	name BACKUP_SERVER
-	exit
+		vlan 60
+		name BACKUP_SERVER
+		exit
 	
-	vlan 70
-	name DNS_SERVER
-	exit
+		vlan 70
+		name DNS_SERVER
+		exit
 	
-	interface fastEthernet 1/1
-	switchport mode access
-	switchport access vlan 10
-	exit
+		interface fastEthernet 1/1
+		switchport mode access
+		switchport access vlan 10
+		exit
 	
-	interface fastEthernet 2/1
-	switchport mode access
-	switchport access vlan 20
-	exit
+		interface fastEthernet 2/1
+		switchport mode access
+		switchport access vlan 20
+		exit
 	
-	interface fastEthernet 3/1
-	switchport mode access
-	switchport access vlan 30
-	exit
+		interface fastEthernet 3/1
+		switchport mode access
+		switchport access vlan 30
+		exit
 	
-	interface fastEthernet 4/1
-	switchport mode access
-	switchport access vlan 40
-	exit
+		interface fastEthernet 4/1
+		switchport mode access
+		switchport access vlan 40
+		exit
 	
-	interface fastEthernet 5/1
-	switchport mode trunk
-	exit
+		interface fastEthernet 5/1
+		switchport mode trunk
+		exit
 	
-	interface fastEthernet 6/1
-	switchport mode trunk
-	exit
+		interface fastEthernet 6/1
+		switchport mode trunk
+		exit
 	
-	interface gigabitEthernet 8/1
-	switchport mode trunk
-	exit
+		interface gigabitEthernet 8/1
+		switchport mode trunk
+		exit
 	
-	interface gigabitEthernet 9/1
-	switchport mode trunk
-	exit
+		interface gigabitEthernet 9/1
+		switchport mode trunk
+		exit
 	
-	exit
+		exit
 	
 	-----------------------------------
 	
-SW_10
+	SW_10:
 
-	enable
-	configure terminal
+		enable
+		configure terminal
 	
-	hostname SW_10
+		hostname SW_10
 
-	vlan 10
-	name FINANCES
-	exit
+		vlan 10
+		name FINANCES
+		exit
 	
-	vlan 20
-	name MARKETING
-	exit
+		vlan 20
+		name MARKETING
+		exit
 	
-	vlan 30
-	name LOGISTICS
-	exit
+		vlan 30
+		name LOGISTICS
+		exit
 	
-	vlan 40
-	name IT
-	exit
+		vlan 40
+		name IT
+		exit
 	
-	vlan 50
-	name SERVERS
-	exit
+		vlan 50
+		name SERVERS
+		exit
 	
-	vlan 60
-	name BACKUP_SERVER
-	exit
+		vlan 60
+		name BACKUP_SERVER
+		exit
 	
-	vlan 70
-	name DNS_SERVER
-	exit
+		vlan 70
+		name DNS_SERVER
+		exit
 	
-	interface fastEthernet 0/1
-	switchport mode access
-	switchport access vlan 10
-	exit
+		interface fastEthernet 0/1
+		switchport mode access
+		switchport access vlan 10
+		exit
 	
-	interface fastEthernet 0/2
-	switchport mode access
-	switchport access vlan 20
-	exit
+		interface fastEthernet 0/2
+		switchport mode access
+		switchport access vlan 20
+		exit
 	
-	interface fastEthernet 0/3
-	switchport mode access
-	switchport access vlan 30
-	exit
+		interface fastEthernet 0/3
+		switchport mode access
+		switchport access vlan 30
+		exit
 	
-	interface fastEthernet 0/4
-	switchport mode access
-	switchport access vlan 40
-	exit
+		interface fastEthernet 0/4
+		switchport mode access
+		switchport access vlan 40
+		exit
 	
-	interface fastEthernet 0/5
-	switchport mode access
-	switchport access vlan 50
-	exit
+		interface fastEthernet 0/5
+		switchport mode access
+		switchport access vlan 50
+		exit
 	
-	interface fastEthernet 0/6
-	switchport mode trunk
-	exit
+		interface fastEthernet 0/6
+		switchport mode trunk
+		exit
 	
-	exit
+		exit
 	
 	-----------------------------------	
 	
-SW_12
+	SW_12:
 
-	enable
-	configure terminal
+		enable
+		configure terminal
 	
-	hostname SW_12
+		hostname SW_12
 
-	vlan 10
-	name FINANCES
-	exit
+		vlan 10
+		name FINANCES
+		exit
 	
-	vlan 20
-	name MARKETING
-	exit
+		vlan 20
+		name MARKETING
+		exit
 	
-	vlan 30
-	name LOGISTICS
-	exit
+		vlan 30
+		name LOGISTICS
+		exit
 	
-	vlan 40
-	name IT
-	exit
+		vlan 40
+		name IT
+		exit
 	
-	vlan 50
-	name SERVERS
-	exit
+		vlan 50
+		name SERVERS
+		exit
 	
-	vlan 60
-	name BACKUP_SERVER
-	exit
+		vlan 60
+		name BACKUP_SERVER
+		exit
 	
-	vlan 70
-	name DNS_SERVER
-	exit
+		vlan 70
+		name DNS_SERVER
+		exit
 	
-	interface fastEthernet 0/1
-	switchport mode access
-	switchport access vlan 10
-	exit
+		interface fastEthernet 0/1
+		switchport mode access
+		switchport access vlan 10
+		exit
 	
-	interface fastEthernet 0/2
-	switchport mode access
-	switchport access vlan 20
-	exit
+		interface fastEthernet 0/2
+		switchport mode access
+		switchport access vlan 20
+		exit
 	
-	interface fastEthernet 0/3
-	switchport mode access
-	switchport access vlan 30
-	exit
+		interface fastEthernet 0/3
+		switchport mode access
+		switchport access vlan 30
+		exit
 	
-	interface fastEthernet 0/4
-	switchport mode access
-	switchport access vlan 40
-	exit
+		interface fastEthernet 0/4
+		switchport mode access
+		switchport access vlan 40
+		exit
 	
-	interface fastEthernet 0/5
-	switchport mode trunk
-	exit
+		interface fastEthernet 0/5
+		switchport mode trunk
+		exit
 	
-	exit
+		exit
 	
 	-----------------------------------	
 	
-SW_21
+	SW_21:
 
-	enable
-	configure terminal
+		enable
+		configure terminal
 	
-	hostname SW_21
+		hostname SW_21
 
-	vlan 10
-	name FINANCES
-	exit
+		vlan 10
+		name FINANCES
+		exit
 	
-	vlan 20
-	name MARKETING
-	exit
+		vlan 20
+		name MARKETING
+		exit
 	
-	vlan 30
-	name LOGISTICS
-	exit
+		vlan 30
+		name LOGISTICS
+		exit
 	
-	vlan 40
-	name IT
-	exit
+		vlan 40
+		name IT
+		exit
 	
-	vlan 50
-	name SERVERS
-	exit
+		vlan 50
+		name SERVERS
+		exit
 	
-	vlan 60
-	name BACKUP_SERVER
-	exit
+		vlan 60
+		name BACKUP_SERVER
+		exit
 	
-	vlan 70
-	name DNS_SERVER
-	exit
+		vlan 70
+		name DNS_SERVER
+		exit
 	
-	interface fastEthernet 1/1
-	switchport mode access
-	switchport access vlan 10
-	exit
+		interface fastEthernet 1/1
+		switchport mode access
+		switchport access vlan 10
+		exit
 	
-	interface fastEthernet 2/1
-	switchport mode access
-	switchport access vlan 20
-	exit
+		interface fastEthernet 2/1
+		switchport mode access
+		switchport access vlan 20
+		exit
 	
-	interface fastEthernet 3/1
-	switchport mode access
-	switchport access vlan 30
-	exit
+		interface fastEthernet 3/1
+		switchport mode access
+		switchport access vlan 30
+		exit
 	
-	interface fastEthernet 4/1
-	switchport mode access
-	switchport access vlan 40
-	exit
+		interface fastEthernet 4/1
+		switchport mode access
+		switchport access vlan 40
+		exit
 	
-	interface fastEthernet 5/1
-	switchport mode trunk
-	exit
+		interface fastEthernet 5/1
+		switchport mode trunk
+		exit
 	
-	interface fastEthernet 6/1
-	switchport mode trunk
-	exit
+		interface fastEthernet 6/1
+		switchport mode trunk
+		exit
 	
-	interface gigabitEthernet 8/1
-	switchport mode trunk
-	exit
+		interface gigabitEthernet 8/1
+		switchport mode trunk
+		exit
 
-	exit
+		exit
 	
 	-----------------------------------
 	
-SW_20
+	SW_20:
 
-	enable
-	configure terminal
+		enable
+		configure terminal
 	
-	hostname SW_20
+		hostname SW_20
 
-	vlan 10
-	name FINANCES
-	exit
+		vlan 10
+		name FINANCES
+		exit
 	
-	vlan 20
-	name MARKETING
-	exit
+		vlan 20
+		name MARKETING
+		exit
 	
-	vlan 30
-	name LOGISTICS
-	exit
+		vlan 30
+		name LOGISTICS
+		exit
 	
-	vlan 40
-	name IT
-	exit
+		vlan 40
+		name IT
+		exit
 	
-	vlan 50
-	name SERVERS
-	exit
+		vlan 50
+		name SERVERS
+		exit
 	
-	vlan 60
-	name BACKUP_SERVER
-	exit
+		vlan 60
+		name BACKUP_SERVER
+		exit
 	
-	vlan 70
-	name DNS_SERVER
-	exit
+		vlan 70
+		name DNS_SERVER
+		exit
 	
-	interface fastEthernet 0/1
-	switchport mode access
-	switchport access vlan 60
-	exit
+		interface fastEthernet 0/1
+		switchport mode access
+		switchport access vlan 60
+		exit
 	
-	interface fastEthernet 1/1
-	switchport mode access
-	switchport access vlan 70
-	exit
+		interface fastEthernet 1/1
+		switchport mode access
+		switchport access vlan 70
+		exit
 	
-	interface fastEthernet 5/1
-	switchport mode trunk
-	exit
+		interface fastEthernet 5/1
+		switchport mode trunk
+		exit
 	
-	exit
+		exit
 	
 	-----------------------------------	
 	
-SW_22
+	SW_22:
 
-	enable
-	configure terminal
+		enable
+		configure terminal
 	
-	hostname SW_22
+		hostname SW_22
 
-	vlan 10
-	name FINANCES
-	exit
+		vlan 10
+		name FINANCES
+		exit
 	
-	vlan 20
-	name MARKETING
-	exit
+		vlan 20
+		name MARKETING
+		exit
 	
-	vlan 30
-	name LOGISTICS
-	exit
+		vlan 30
+		name LOGISTICS
+		exit
 	
-	vlan 40
-	name IT
-	exit
+		vlan 40
+		name IT
+		exit
 	
-	vlan 50
-	name SERVERS
-	exit
+		vlan 50
+		name SERVERS
+		exit
 	
-	vlan 60
-	name BACKUP_SERVER
-	exit
+		vlan 60
+		name BACKUP_SERVER
+		exit
 	
-	vlan 70
-	name DNS_SERVER
-	exit
+		vlan 70
+		name DNS_SERVER
+		exit
 	
-	interface fastEthernet 0/1
-	switchport mode access
-	switchport access vlan 10
-	exit
+		interface fastEthernet 0/1
+		switchport mode access
+		switchport access vlan 10
+		exit
 	
-	interface fastEthernet 0/2
-	switchport mode access
-	switchport access vlan 20
-	exit
+		interface fastEthernet 0/2
+		switchport mode access
+		switchport access vlan 20
+		exit
 	
-	interface fastEthernet 0/3
-	switchport mode access
-	switchport access vlan 30
-	exit
+		interface fastEthernet 0/3
+		switchport mode access
+		switchport access vlan 30
+		exit
 	
-	interface fastEthernet 0/4
-	switchport mode access
-	switchport access vlan 40
-	exit
+		interface fastEthernet 0/4
+		switchport mode access
+		switchport access vlan 40
+		exit
 	
-	interface fastEthernet 0/6
-	switchport mode trunk
-	exit
+		interface fastEthernet 0/6
+		switchport mode trunk
+		exit
 	
-	exit
+		exit
 	
 	-----------------------------------	
 
