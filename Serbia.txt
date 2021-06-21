@@ -121,25 +121,25 @@ Router configuration:
 		!# interface configuration
 		
 		interface serial 0/0
-		address 10.72.0.13 255.255.255.252
+		ip address 10.72.0.13 255.255.255.252
 		clock rate 2000000
 		no shutdown
 		exit
 		
 		interface serial 1/0
-		address 10.72.0.17 255.255.255.252
+		ip address 10.72.0.17 255.255.255.252
 		clock rate 2000000
 		no shutdown
 		exit
 		
 		interface serial 2/0
-		address 10.72.0.9 255.255.255.252
+		ip address 10.72.0.9 255.255.255.252
 		clock rate 2000000
 		no shutdown
 		exit
 		
 		interface serial 3/0
-		address 10.72.16.5 255.255.255.252
+		ip address 10.72.16.5 255.255.255.252
 		clock rate 2000000
 		no shutdown
 		exit
@@ -266,6 +266,14 @@ Belgrade: (10.72.16.0/20)
 		local networks in outside area (R_bg_2, FA 7/0 and FA 8/0): 10.72.17.128/27 and 10.72.17.160/27
 		
 		local networks in main area (R_bg_1, GIGA 8/0): 10.72.18.0/24
+			subnets:
+				vlan10 - Finances (10.72.18.0/27)
+				vlan20 - Marketing (10.72.18.32/27)
+				vlan30 - Logistics (10.72.18.64/27)
+				vlan40 - IT department (10.72.96.0/27)
+				vlan50 - Common production server (10.72.18.128/27)
+				vlan60 - Backup server (10.72.160.0/29)
+				vlan70 - DNS server (10.72.18.168/29)
 
 Router configuration:
 	
@@ -431,7 +439,7 @@ Switch configuration:
 		vlan 20
 		name MARKETING
 		exit
-	
+
 		vlan 30
 		name LOGISTICS
 		exit
